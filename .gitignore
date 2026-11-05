@@ -1,0 +1,8 @@
+node_modules/
+dist/
+dist-electron/
+protocol-reference/
+test-results/
+playwright-report/
+.smoke-data/
+*.log

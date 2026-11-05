@@ -1,0 +1,65 @@
+.scene-view { display:flex; flex-direction:column; flex:1; width:100%; height:100%; min-width:0; min-height:0; color:#283d3d; }
+.scene-viewport { flex:1; position:relative; overflow:hidden; min-height:270px; isolation:isolate; background:radial-gradient(ellipse at 50% 48%,#fffdf6 0%,#f7f4eb 70%); border-radius:12px; }
+.scene-viewport canvas { display:block; width:100%; height:100%; touch-action:none; position:absolute; inset:0; }
+.scene-model-labels { position:absolute; inset:0; pointer-events:none; z-index:2; overflow:hidden; }
+.scene-model-label { position:absolute; left:0; top:0; pointer-events:auto; border:1px solid #dadbd1; border-radius:5px; background:#fffdf3e8; color:#32484a; padding:5px 9px; font-family:inherit; font-weight:500; font-size:11px; line-height:1.2; white-space:nowrap; box-shadow:0 2px 7px #263c3a08; cursor:pointer; }
+.scene-model-label[hidden] { display:none; }
+.scene-model-label.is-selected { background:#fff0df; border-color:#c66b42; color:#8d3d1e; }
+.scene-gesture-hint,.scene-motion-note { position:absolute; z-index:3; bottom:14px; left:16px; color:#6a746d; font-size:11px; pointer-events:none; background:#faf8f0c9; padding:4px 7px; border-radius:4px; }
+.scene-motion-note { bottom:42px; }
+.scene-part-picker,.scene-chart-legend { display:flex; flex-wrap:wrap; align-items:center; gap:6px; padding:13px 4px 3px; flex-shrink:0; }
+.scene-part-picker { max-height:110px; overflow:auto; }
+.scene-part-picker button,.scene-chart-legend button { display:flex; align-items:center; gap:7px; background:transparent; border:1px solid transparent; border-radius:6px; color:#52625d; padding:6px 9px; font:inherit; font-size:12px; cursor:pointer; min-height:32px; }
+.scene-part-picker button:hover,.scene-chart-legend button:hover { background:#eeede4; color:#283d3d; }
+.scene-part-picker button.is-selected,.scene-chart-legend button.is-selected { background:#fff5e9; border-color:#d3aa8b; color:#813d24; }
+.scene-swatch { display:inline-block; width:8px; height:8px; flex-shrink:0; border-radius:50%; box-shadow:inset 0 0 0 1px #00000012; }
+.scene-view button:focus-visible,.scene-data-details summary:focus-visible { outline:2px solid #a74e2f; outline-offset:3px; }
+.scene-render-error { position:absolute; inset:0; z-index:5; background:#f7f4eb; display:flex; align-items:center; justify-content:center; flex-direction:column; padding:32px; text-align:center; }
+.scene-render-error strong { font-weight:600; }
+.scene-render-error p { color:#66716c; max-width:380px; font-size:13px; line-height:1.6; }
+.scene-render-error button { border:1px solid #bdc7bd; background:#fffcf7; border-radius:6px; padding:8px 14px; font:inherit; font-size:12px; cursor:pointer; color:#344e44; }
+.scene-empty { flex:1; min-height:280px; display:flex; align-items:center; justify-content:center; text-align:center; flex-direction:column; padding:36px; color:#64776f; }
+.scene-empty svg { width:130px; height:130px; color:#b4c0b3; margin-bottom:22px; }
+.scene-empty p { font-size:19px; font-weight:500; margin:0 0 10px; color:#41584e; }
+.scene-empty span { font-size:13px; max-width:320px; line-height:1.65; color:#7b857c; }
+.scene-chart-legend { padding:3px 4px 5px; }
+.scene-chart { overflow-y:auto; overscroll-behavior:contain; scrollbar-width:thin; }
+.scene-chart-plot,.scene-diagram-plot { min-height:250px; flex:1; display:flex; align-items:center; justify-content:center; }
+.scene-chart-plot svg,.scene-diagram-plot svg { width:100%; max-height:100%; display:block; overflow:visible; font-family:inherit; }
+.scene-chart-plot { flex:1 0 280px; height:280px; min-height:280px; }
+.scene-chart-plot svg { width:100%; height:100%; max-width:900px; max-height:none; }
+.scene-grid-line { stroke:#dfe3db; stroke-width:1; stroke-dasharray:3 5; }
+.scene-axis-line { stroke:#afb9af; stroke-width:1; fill:none; }
+.scene-zero-line { stroke:#8e9c91; stroke-width:1.2; }
+.scene-axis-tick { font-size:12px; fill:#788278; font-variant-numeric:tabular-nums; }
+.scene-axis-title { font-size:13px; fill:#52685c; }
+.scene-series { cursor:pointer; outline:none; }
+.scene-series:focus-visible { filter:drop-shadow(0 0 3px #7b9368); opacity:1; }
+.scene-point-value { font-size:11px; font-weight:600; paint-order:stroke; stroke:#faf8f2; stroke-width:3px; font-variant-numeric:tabular-nums; }
+.scene-data-source { padding:3px 8px 6px; color:#778075; font-size:11px; line-height:1.5; margin:0; }
+.scene-data-source strong { font-weight:600; margin-right:7px; color:#536658; }
+.scene-data-details { flex-shrink:0; margin:5px 5px 0; border-top:1px solid #e2e5da; color:#5f7063; font-size:12px; }
+.scene-data-details summary { padding:11px 0; cursor:pointer; width:fit-content; }
+.scene-table-scroll { overflow:auto; max-height:190px; padding-bottom:7px; }
+.scene-data-details table { width:100%; border-collapse:collapse; font-size:11px; font-variant-numeric:tabular-nums; text-align:left; }
+.scene-data-details caption { text-align:left; font-size:10px; color:#7e897c; padding-bottom:8px; }
+.scene-data-details th,.scene-data-details td { padding:7px 10px; border-bottom:1px solid #e6e8df; font-weight:400; white-space:nowrap; }
+.scene-data-details thead th { font-weight:600; color:#435c4a; }
+.scene-data-details tbody tr.is-selected { background:#f5ebdd; }
+.scene-diagram-edge { fill:none; stroke:#8d948e; stroke-width:1.6; }
+.scene-edge-label { font-size:12px; fill:#798577; paint-order:stroke; stroke:#faf8f2; stroke-width:5px; }
+.scene-diagram-node { cursor:pointer; outline:none; }
+.scene-diagram-node:hover rect { fill:#f4f3e9; }
+.scene-diagram-node.is-selected rect { fill:#fff0df; }
+.scene-diagram-node:focus-visible rect { stroke-width:4; }
+.scene-node-title { font-size:13px; fill:#344e46; font-weight:500; }
+.scene-node-number { font-size:9px; fill:#a0a899; font-variant-numeric:tabular-nums; }
+@media(max-width:600px) {
+ .scene-viewport { min-height:300px; }
+ .scene-model-label { font-size:10px; padding:4px 6px; }
+ .scene-chart-plot,.scene-diagram-plot { min-height:240px; }
+ .scene-chart-plot svg,.scene-diagram-plot svg { min-width:480px; }
+ .scene-chart-plot,.scene-diagram-plot { overflow-x:auto; justify-content:flex-start; }
+ .scene-part-picker button { min-height:38px; }
+}
+@media(prefers-reduced-motion:reduce) { .scene-view * { scroll-behavior:auto; transition:none !important; } }

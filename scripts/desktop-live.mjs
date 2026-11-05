@@ -1,0 +1,30 @@
+import { _electron as electron } from '@playwright/test';
+import electronPath from 'electron';
+import { mkdir,writeFile } from 'node:fs/promises';
+import path from 'node:path';
+const env={...process.env,STUDIO_USER_DATA:path.resolve('.smoke-data/desktop-live')};delete env.ELECTRON_RUN_AS_NODE;
+await mkdir('.smoke-data',{recursive:true});
+const application=await electron.launch({executablePath:electronPath,args:['.'],env,timeout:30000});
+try {
+ const page=await application.firstWindow();const errors=[];page.on('pageerror',error=>errors.push(String(error)));
+ await page.getByRole('button',{name:'Connect Codex',exact:true}).click();
+ await page.getByRole('button',{name:'Codex connected',exact:true}).waitFor({timeout:70000});
+ const prompt=page.getByRole('textbox',{name:'Ask Codex to explain something visually'});
+ await prompt.fill('Create a 3D visual titled Orbit study with exactly one sphere. Its id is planet, label Planet, position [0,0,0], dimensions [1,1,1], and color #326d89. Explain in one sentence that it is a simplified sphere, not an accurate planet model. Use replace_scene.');
+ await page.getByRole('button',{name:'Ask Codex',exact:true}).click();
+ await page.getByRole('heading',{name:'Orbit study',exact:true}).waitFor({timeout:180000});
+ await page.getByRole('button',{name:'Stop',exact:true}).waitFor({state:'hidden',timeout:180000});
+ await page.locator('.scene-part-picker').getByRole('button',{name:'Planet',exact:true}).click();
+ await page.getByRole('region',{name:'Selected element'}).waitFor();
+ await prompt.fill('Change only the selected part color to #be4b32. Keep its id, position, size, label and scene title unchanged.');
+ await page.getByRole('button',{name:'Ask Codex',exact:true}).click();
+ await page.getByRole('button',{name:'Stop',exact:true}).waitFor({state:'hidden',timeout:180000});
+ await page.getByRole('button',{name:'Saved',exact:true}).waitFor({timeout:15000});
+ const lesson=await page.evaluate(async()=>{const items=await window.studio.listLessons();return window.studio.loadLesson(items[0].id);});
+ if(lesson.scene.title!=='Orbit study'||lesson.scene.parts.length!==1||lesson.scene.parts[0].id!=='planet'||lesson.scene.parts[0].color!=='#be4b32')throw new Error('Selected part follow-up did not produce expected saved scene.');
+ if(lesson.messages.length!==4||!lesson.threadId)throw new Error('Conversation history was not saved.');
+ if(errors.length)throw new Error(errors.join('\n'));
+ await page.screenshot({path:'.smoke-data/desktop-live.png'});
+ await writeFile('.smoke-data/desktop-live-result.json',JSON.stringify({verifiedAt:new Date().toISOString(),title:lesson.title,threadId:lesson.threadId,parts:lesson.scene.parts,messages:lesson.messages.length,errors},null,2));
+ console.log('PASS: desktop IPC, real Codex 3D generation, selection follow-up and saved conversation.');
+}finally{await application.close();}
